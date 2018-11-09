@@ -21,7 +21,7 @@ public class SendTest {
     public static void main(String[] args) throws IOException, TimeoutException {
         RMQConnection rmq = new RMQConnection("student", "cph", "datdb.cphbusiness.dk", 5672, "hello");
         rmq.createConnection();
-        String message = new BasicMessage("1241512", 1231, 291581.0, new Date()).toString();
+        String message = new BasicMessage("1241512", 291581.0, new Date()).toString();
         rmq.sendMessage(message);
         
         

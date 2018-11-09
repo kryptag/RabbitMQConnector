@@ -47,7 +47,7 @@ public class RMQConnection {
             }
         }
     }
-
+    
     public void getMessageStream() throws IOException, InterruptedException {
         Channel chan = this.connection.createChannel();
         chan.queueDeclare(queuename, false, false, false, null);
