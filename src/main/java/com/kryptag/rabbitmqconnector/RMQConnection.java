@@ -10,6 +10,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,18 @@ public class RMQConnection {
                 this.connection = createConnectionHelper();
             } catch (IOException e) {
             }
+        }
+    }
+    
+    public void putMessageInQueue(ConcurrentLinkedQueue q) throws IOException, InterruptedException {
+        Channel chan = this.connection.createChannel();
+        chan.queueDeclare(queuename, false, false, false, null);
+        QueueingConsumer consumer = new QueueingConsumer(chan);
+	chan.basicConsume(queuename, true, consumer);
+        while (true) {
+            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+	    String message = new String(delivery.getBody());
+            q.add(message);
         }
     }
     
