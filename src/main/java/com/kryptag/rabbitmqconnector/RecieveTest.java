@@ -20,13 +20,11 @@ public class RecieveTest {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws IOException, InterruptedException {
-        RMQConnection rmqPub = new RMQConnection("student", "cph", "datdb.cphbusiness.dk", 5672, "hello");
-        RMQConnection rmqCon = new RMQConnection("student", "cph", "datdb.cphbusiness.dk", 5672, "hello");
+        RMQConnection rmqPub = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
+        RMQConnection rmqCon = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
         ConcurrentLinkedQueue q = new ConcurrentLinkedQueue();
         RMQProducer rmqp = new RMQProducer(q, rmqPub);
         RMQConsumer rmqc = new RMQConsumer(q, rmqCon);
-        //rmq.getMessageStream();
-        //rmq.putMessageInQueue(q);
         rmqp.start();
         rmqc.start();
     }

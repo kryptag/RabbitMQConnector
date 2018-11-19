@@ -5,6 +5,7 @@
  */
 package com.kryptag.rabbitmqconnector;
 
+import com.google.gson.Gson;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -13,7 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author florenthaxha
  */
 public class RMQConsumer extends Thread {
-
     private final ConcurrentLinkedQueue queue;
     private final RMQConnection rmq;
     
@@ -33,17 +33,17 @@ public class RMQConsumer extends Thread {
         }
     }
 
-    public Queue getQ() {
-        return queue;
-    }
-
     private void doWork() {
         if (!queue.isEmpty()) {
             System.out.println(queue.remove().toString());
         }
     }
-    
-    private void sendMessage(String msg){
-        rmq.sendMessage(msg);
+        
+    public ConcurrentLinkedQueue getQueue() {
+        return queue;
+    }
+
+    public RMQConnection getRmq() {
+        return rmq;
     }
 }

@@ -6,6 +6,7 @@
 package com.kryptag.rabbitmqconnector;
 
 import java.io.IOException;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,11 +26,22 @@ public class RMQProducer extends Thread {
     }
     
     @Override
-    public void run(){ 
+    public void run(){
+        
         try {
             rmq.putMessageInQueue(queue);
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(RMQProducer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public ConcurrentLinkedQueue getQueue() {
+        return queue;
+    }
+
+    public RMQConnection getRmq() {
+        return rmq;
+    }
+    
+    
 }
