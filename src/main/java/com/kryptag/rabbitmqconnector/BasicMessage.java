@@ -5,8 +5,6 @@
  */
 package com.kryptag.rabbitmqconnector;
 
-import java.util.Date;
-
 /**
  *
  * @author florenthaxha
@@ -15,9 +13,9 @@ public class BasicMessage {
     
     private final String ssn;
     private final double loanAmount;
-    private final Date loanDuration;
+    private final int loanDuration;
 
-    public BasicMessage(String ssn, double loanAmount, Date loanDuration) {
+    public BasicMessage(String ssn, double loanAmount, int loanDuration) {
         this.ssn = ssn;
         this.loanAmount = loanAmount;
         this.loanDuration = loanDuration;
@@ -32,7 +30,7 @@ public class BasicMessage {
         return loanAmount;
     }
 
-    public Date getLoanDuration() {
+    public int getLoanDuration() {
         return loanDuration;
     }
 

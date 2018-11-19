@@ -6,7 +6,6 @@
 package com.kryptag.rabbitmqconnector;
 
 import java.io.IOException;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,15 +17,15 @@ import java.util.logging.Logger;
 public class RMQProducer extends Thread {
     private final ConcurrentLinkedQueue queue;
     private final RMQConnection rmq;
+    
     public RMQProducer(ConcurrentLinkedQueue queue, RMQConnection rmq) {
         this.queue = queue;
         this.rmq = rmq;
-        rmq.createConnection();
+        this.rmq.createConnection();
     }
     
     @Override
-    public void run(){
-        rmq.createConnection();
+    public void run(){ 
         try {
             rmq.putMessageInQueue(queue);
         } catch (IOException | InterruptedException ex) {

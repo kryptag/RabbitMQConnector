@@ -16,10 +16,11 @@ public class RMQConsumer extends Thread {
 
     private final ConcurrentLinkedQueue queue;
     private final RMQConnection rmq;
+    
     public RMQConsumer(ConcurrentLinkedQueue q, RMQConnection rmq) {
         this.queue = q;
         this.rmq = rmq;
-        rmq.createConnection();
+        this.rmq.createConnection();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class RMQConsumer extends Thread {
         }
     }
     
-    private void sendMessage(){
-        
+    private void sendMessage(String msg){
+        rmq.sendMessage(msg);
     }
 }
