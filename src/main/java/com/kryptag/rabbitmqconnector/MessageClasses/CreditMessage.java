@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kryptag.rabbitmqconnector;
+package com.kryptag.rabbitmqconnector.MessageClasses;
 
-import com.kryptag.rabbitmqconnector.BasicMessage;
+import com.kryptag.rabbitmqconnector.MessageClasses.BasicMessage;
 
 /**
  *
