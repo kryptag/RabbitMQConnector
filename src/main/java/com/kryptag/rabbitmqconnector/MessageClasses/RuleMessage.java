@@ -5,20 +5,22 @@
  */
 package com.kryptag.rabbitmqconnector.MessageClasses;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author florenthaxha
  */
 public class RuleMessage {
-    private final String bankName;
+    private final ArrayList<String> bankName;
     private final CreditMessage cmsg;
 
-    public RuleMessage(String bankName, CreditMessage cmsg) {
+    public RuleMessage(ArrayList<String> bankName, CreditMessage cmsg) {
         this.bankName = bankName;
         this.cmsg = cmsg;
     }
 
-    public String getBankName() {
+    public ArrayList<String> getBankNames() {
         return bankName;
     }
 

@@ -25,5 +25,10 @@ public class AggregatorMessage {
     public int getNumberOfBanks() {
         return numberOfBanks;
     }
+
+    @Override
+    public String toString() {
+        return "AggregatorMessage{" + "ssn=" + ssn + ", numberOfBanks=" + numberOfBanks + '}';
+    }
     
 }

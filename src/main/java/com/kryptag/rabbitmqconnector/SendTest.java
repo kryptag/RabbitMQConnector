@@ -5,6 +5,8 @@
  */
 package com.kryptag.rabbitmqconnector;
 
+import com.google.gson.Gson;
+import com.kryptag.rabbitmqconnector.Enums.ExchangeNames;
 import com.kryptag.rabbitmqconnector.MessageClasses.BasicMessage;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -19,10 +21,11 @@ public class SendTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, TimeoutException {
-        RMQConnection rmq = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
+        RMQConnection rmq = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, ExchangeNames.ENTRY_POINT.toString());
+        Gson g = new Gson();
         rmq.createConnection();
-        String message = new BasicMessage("1241512", 291581.0, 30).toString();
-        rmq.sendMessage(message);
+        BasicMessage message = new BasicMessage("1241512", 291581.0, 30);
+        rmq.sendMessage(g.toJson(message));
         
         
     }
