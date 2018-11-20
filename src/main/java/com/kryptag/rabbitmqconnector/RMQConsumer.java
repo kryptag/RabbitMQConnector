@@ -5,8 +5,6 @@
  */
 package com.kryptag.rabbitmqconnector;
 
-import com.google.gson.Gson;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

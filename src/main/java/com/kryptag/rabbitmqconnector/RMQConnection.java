@@ -5,6 +5,7 @@
  */
 package com.kryptag.rabbitmqconnector;
 
+import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -48,48 +49,54 @@ public class RMQConnection {
             }
         }
     }
-    
+
     public void putMessageInQueue(ConcurrentLinkedQueue q) throws IOException, InterruptedException {
         Channel chan = this.connection.createChannel();
         chan.queueDeclare(queuename, false, false, false, null);
         QueueingConsumer consumer = new QueueingConsumer(chan);
-	chan.basicConsume(queuename, true, consumer);
+        chan.basicConsume(queuename, true, consumer);
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-	    String message = new String(delivery.getBody());
+            String message = new String(delivery.getBody());
             q.add(message);
         }
     }
-    
+
     public void getMessageStream() throws IOException, InterruptedException {
         Channel chan = this.connection.createChannel();
         chan.queueDeclare(queuename, false, false, false, null);
         QueueingConsumer consumer = new QueueingConsumer(chan);
-	chan.basicConsume(queuename, true, consumer);
+        chan.basicConsume(queuename, true, consumer);
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-	    String message = new String(delivery.getBody());
+            String message = new String(delivery.getBody());
             System.out.println(" [x] Received '" + message + "'");
         }
     }
 
     public void sendMessage(String msg) {
         Channel chan = null;
+        createConnection();
         try {
             chan = this.connection.createChannel();
             chan.basicPublish("", queuename, null, msg.getBytes());
         } catch (IOException ex) {
             Logger.getLogger(RMQConnection.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                if (chan != null) {
-                    chan.close();
-                    this.connection.close();
-                    this.connection = null;
-                }
-            } catch (IOException | TimeoutException ex) {
-                Logger.getLogger(RMQConnection.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            channelCloser(chan);
+        }
+    }
+
+    public void sendMessageWithProps(String msg, BasicProperties props) {
+        Channel chan = null;
+        createConnection();
+        try {
+            chan = this.connection.createChannel();
+            chan.basicPublish("", queuename, props, msg.getBytes());
+        } catch (IOException e) {
+            Logger.getLogger(RMQConnection.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            channelCloser(chan);
         }
     }
 
@@ -106,6 +113,18 @@ public class RMQConnection {
         } catch (IOException | TimeoutException e) {
         }
         return temp;
+    }
+
+    private void channelCloser(Channel chan) {
+        try {
+            if (chan != null) {
+                chan.close();
+                this.connection.close();
+                this.connection = null;
+            }
+        } catch (IOException | TimeoutException ex) {
+            Logger.getLogger(RMQConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String getUsername() {
