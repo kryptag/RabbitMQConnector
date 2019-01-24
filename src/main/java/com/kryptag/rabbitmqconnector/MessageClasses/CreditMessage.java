@@ -23,6 +23,4 @@ public class CreditMessage extends BasicMessage {
         return creditScore;
     }
     
-   
-    
 }

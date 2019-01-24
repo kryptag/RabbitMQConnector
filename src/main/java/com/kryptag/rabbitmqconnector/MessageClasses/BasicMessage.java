@@ -13,6 +13,7 @@ public class BasicMessage {
     
     private final String ssn;
     private final double loanAmount;
+    // Integer unit is counted as months
     private final int loanDuration;
 
     public BasicMessage(String ssn, double loanAmount, int loanDuration) {
